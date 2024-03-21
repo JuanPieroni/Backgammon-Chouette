@@ -1,0 +1,80 @@
+/* Estilos para los botones */
+.button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Estilos para la línea "TOTAL" */
+.total-row {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+/* Estilos para los botones de sumar y restar */
+.increment-button,
+.decrement-button {
+  background-color: #3498db;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-right: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.decrement-button {
+  background-color: #e74c3c;
+}
+
+/* Estilos para las líneas separadoras */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+/* Estilos para los botones de acción */
+.action-button {
+  background-color: #3498db;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-right: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.action-button.delete {
+  background-color: #e74c3c;
+}
+
+/* Estilos para centrar y distribuir los elementos en la tabla */
+td:last-child {
+  text-align: center;
+}
+
+td:last-child .action-button {
+  margin-right: 4px;
+}
