@@ -47,7 +47,7 @@ table {
 td,
 th {
   border: 1px solid #dddddd;
-  text-align: left;
+  text-align: center;
   padding: 8px;
 }
 
@@ -76,5 +76,45 @@ td:last-child {
 }
 
 td:last-child .action-button {
+  text-align: center;
   margin-right: 4px;
+}
+
+ /* Estilos para los jugadores */
+.player-scores {
+  display: flex;
+  justify-content:space-around;
+  text-align: center;
+}
+
+/* Estilos para cada jugador */
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Estilos para el nombre del jugador */
+.player-name {
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+/* Estilos para el puntaje */
+.score {
+  
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Estilos para la columna "Total" */
+.total-column {
+  width: 100px; /* Ajusta el ancho según sea necesario */
+  border-bottom: 2px solid #333; 
+}
+
+.total-row td {
+  background-color: #f2f2f2; /* Color de fondo diferente para resaltar la fila */
+  font-weight: bold; /* Hace que el texto sea más destacado */
 }
