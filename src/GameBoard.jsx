@@ -309,7 +309,7 @@ function GameBoard() {
                         Add Player
                     </button>
                 </div>
-                <disssv className="player-scores">
+                <div className="player-scores">
                     {players.map((player) => (
                         <PlayerScore
                             key={player}
@@ -319,7 +319,7 @@ function GameBoard() {
                             removePlayer={removePlayer}
                         />
                     ))}
-                </disssv>
+                </div>
                 <button className="button" onClick={handleNextRound}>
                     Next Round
                 </button>
