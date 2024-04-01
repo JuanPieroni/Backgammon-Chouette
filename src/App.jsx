@@ -7,7 +7,7 @@ import GameBoard from "./GameBoard"
 function App() {
     return (
         <div className="App">
-            <h1>Backgammon Chouette</h1>
+         
             <GameBoard />
      
         </div>

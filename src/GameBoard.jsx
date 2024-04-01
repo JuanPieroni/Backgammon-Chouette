@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { FaEdit } from "react-icons/fa" // Ícono de editar (Font Awesome)
 import { RiDeleteBin6Line } from "react-icons/ri" // Ícono de eliminar (Remix Icon)
+import { GiBackgammon } from "react-icons/gi" // Ícono de backgammon (Glyphicon)
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai" // Importa los íconos de la librería
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
@@ -20,27 +21,45 @@ function PlayerScore({
 
     return (
         <div className="player-score ">
-            <h3>{player}</h3>
+            <h3 className="player-name">{player}</h3>
             <p className="score">{score}</p>
-            <button
-                className="increment-button"
-                onClick={() => handleUpdateScore(1)}
-            >
-                +1
-            </button>
-            <button
-                className="decrement-button"
-                onClick={() => handleUpdateScore(-1)}
-            >
-                -1
-            </button>
-            <button className="reset-button">0</button>
-            <button
-                className="remove-player-button"
-                onClick={() => removePlayer(player)}
-            >
-                <RiDeleteBin6Line />
-            </button>
+
+            <div className="botonera">
+                <button
+                    className="increment-button"
+                    onClick={() => handleUpdateScore(1)}
+                >
+                    +1
+                </button>
+                <button
+                    className="increment-button"
+                    onClick={() => handleUpdateScore(2)}
+                >
+                    +2
+                </button>
+                <span>
+                    <GiBackgammon />{" "}
+                </span>
+                <button
+                    className="decrement-button"
+                    onClick={() => handleUpdateScore(-2)}
+                >
+                    -2
+                </button>
+                <button
+                    className="decrement-button"
+                    onClick={() => handleUpdateScore(-1)}
+                >
+                    -1
+                </button>
+
+                <button
+                    className="remove-player-button"
+                    onClick={() => removePlayer(player)}
+                >
+                    <RiDeleteBin6Line />
+                </button>
+            </div>
         </div>
     )
 }
@@ -332,6 +351,7 @@ function GameBoard() {
     return (
         <>
             <div className="game-board">
+            <h1>Backgammon Chouette</h1>
                 <h2>Game Board</h2>
                 <div className="input-button">
                     <input
@@ -397,7 +417,14 @@ function GameBoard() {
                         </Droppable>
                     </DragDropContext>
                 </div>
-                <div style={{display:"flex", alignItems:"center", flexFlow: "column wrap" } } className="score-check">
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexFlow: "column wrap",
+                    }}
+                    className="score-check"
+                >
                     {calculateTotalScore() === 0 ? (
                         <AiOutlineCheckCircle
                             color="green"
@@ -406,13 +433,14 @@ function GameBoard() {
                         />
                     ) : (
                         <>
-
-                        <AiOutlineCloseCircle
-                            color="red"
-                            size={55}
-                            title="La suma no es cero"
-                        />
-                        <p style={{justifyContent:"center"}} >LA SUMATORIA NO ES CERO</p>
+                            <AiOutlineCloseCircle
+                                color="red"
+                                size={55}
+                                title="La suma no es cero"
+                            />
+                            <p style={{ justifyContent: "center" }}>
+                                LA SUMATORIA NO ES CERO
+                            </p>
                         </>
                     )}
                 </div>
@@ -443,7 +471,7 @@ function GameBoard() {
                 <table className="table-container">
                     <thead>
                         <tr className="total-row ">
-                            <th>Ronda/Jugadores</th>
+                            <th>Ronda / Jug.</th>
                             {players.map((player) => (
                                 <th key={player}>{player}</th>
                             ))}

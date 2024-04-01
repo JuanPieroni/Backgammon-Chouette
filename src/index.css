@@ -1,11 +1,28 @@
  /* General styles for mobile-first design */
+ @font-face {
+  font-family: 'SCOREBOARD';
+  src:  
+       url('./fonts/SCOREBOARD.ttf') format('truetype');
+  /* Add additional font formats if necessary */
+  /* Specify the correct path to the font files */
+}
+
  
  * {
    margin: 0;
    padding: 0;
    box-sizing: border-box;
   }
-  
+  h2 {
+    text-align: center;
+      padding: 1rem;
+   font-size: xx-large;
+    font-weight: 400;
+ 
+    font-variation-settings:
+      "MORF" 15,
+      "SHLN" 69.1;
+  }
   h1 {
     text-align: center;
      font-family: "Honk", system-ui; 
@@ -66,29 +83,18 @@ body {
     margin: 0;
   }
   
-  .score {
-    font-size: 1.5em;
-    font-weight: bold;
-  }
   
-  /* Increment and decrement button styles */
-  .increment-button,
-  .decrement-button,
-  .reset-button {
-    background: #eed7d7;
-    color: #333;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-right: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
+    .score {
+      font-size: 80px; /* Even larger font size for score */
+      font-weight: lighter;
+      color: #010911; /* Blue color to stand out */
+      font-family: "SCOREBOARD";
+    }
+ 
   
-  .increment-button:active,
-  .decrement-button:active,
-  .reset-button:active {
-    transform: scale(0.9);
-  }
+ 
+  
+ 
   
   /* Remove player button styles */
   .remove-player-button {
@@ -230,12 +236,7 @@ body {
 .table-container:hover {
   transform: translateX(-10px);
 }
-
-.increment-button:active,
-.decrement-button:active,
-.reset-button:active {
-  animation: grow 0.2s ease forwards;
-}
+ 
 
 @keyframes grow {
   to {
@@ -243,5 +244,78 @@ body {
   }
 }
 
+.botonera {
+  display: flex;
+  gap: 10px; /* Adjust the space between buttons */
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+}
 
- 
+.botonera button {
+  padding: 10px 15px;
+  border: 2px solid grey;
+  border-radius: 7px; /* Rounded edges */
+  background-color: #f0f0f0; /* Light grey background */
+  color: #333; /* Dark text for contrast */
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.botonera button:hover {
+  background-color: #e0e0e0; /* Slightly darker on hover */
+  border-color: #007bff; /* Blue border on hover */
+  color: #007bff; /* Blue text on hover */
+}
+
+.botonera .remove-player-button {
+  background-color: transparent; /* No background for the remove button */
+  color: #dc3545; /* Red color for the remove icon */
+}
+
+.botonera .remove-player-button:hover {
+  background-color: #dc3545; /* Red background on hover */
+  color: #fff; /* White text on hover */
+}
+
+/* Adjustments for the increment and decrement buttons */
+.botonera .increment-button {
+  color: #28a745; /* Green text */
+}
+
+.botonera .increment-button:hover {
+  border-color: #28a745; /* Green border on hover */
+  color: #fff; /* White text on hover */
+  background-color: #28a745; /* Green background on hover */
+}
+
+.botonera .decrement-button {
+  color: #dc3545; /* Red text */
+}
+
+.botonera .decrement-button:hover {
+  border-color: #dc3545; /* Red border on hover */
+  color: #fff; /* White text on hover */
+  background-color: #dc3545; /* Red background on hover */
+}
+
+.player-score {
+  text-align: center;
+  margin-bottom: 20px; /* Space below the score area */
+}
+
+.player-name {
+  font-size: 24px; /* Larger font size for player name */
+  font-weight: bold;
+  margin-bottom: 5px; /* Space between name and score */
+  color: #0a0d24d2; /* Dark color for text */
+  font-family: "Holtwood One SC", serif; /* A common, attractive font */
+ font-weight: 400;
+}
+
+
+
+/* Continue with the previous styles for .botonera and buttons */
