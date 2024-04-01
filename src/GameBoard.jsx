@@ -2,8 +2,7 @@ import React, { useState, useEffect, useMemo } from "react"
 import { FaEdit } from "react-icons/fa" // Ícono de editar (Font Awesome)
 import { RiDeleteBin6Line } from "react-icons/ri" // Ícono de eliminar (Remix Icon)
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai" // Importa los íconos de la librería
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 function PlayerScore({
     player,
@@ -19,16 +18,8 @@ function PlayerScore({
     }
     const hoverClass = hover ? "hover-effect" : ""
 
-  
-
-   
-
- 
     return (
-        <div
-            className="player-score "
-  
-        >
+        <div className="player-score ">
             <h3>{player}</h3>
             <p className="score">{score}</p>
             <button
@@ -329,15 +320,15 @@ function GameBoard() {
     }
     const onDragEnd = (result) => {
         if (!result.destination) {
-          return;
+            return
         }
-      
-        const items = Array.from(players);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
-      
-        setPlayers(items);
-      };
+
+        const items = Array.from(players)
+        const [reorderedItem] = items.splice(result.source.index, 1)
+        items.splice(result.destination.index, 0, reorderedItem)
+
+        setPlayers(items)
+    }
     return (
         <>
             <div className="game-board">
@@ -354,52 +345,57 @@ function GameBoard() {
                         Add Player
                     </button>
                 </div>
-                
-                
+
                 <div>
-                {/* Envuelve la lista de jugadores con DragDropContext y Droppable */}
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="droppable-players">
-                        {(provided) => (
-                            <div
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                            >
-                                {players.map((player, index) => (
-                                    // Envuelve cada jugador con Draggable
-                                    <Draggable
-                                        key={player}
-                                        draggableId={player}
-                                        index={index}
-                                    >
-                                        {(provided) => (
-                                            <div
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                <PlayerScore
-                                                    player={player}
-                                                    score={playerScores[player]}
-                                                    updateScore={updateScore}
-                                                    removePlayer={removePlayer}
-                                                    hover={hover}
-                                                    handleMouseEnter={
-                                                        handleMouseEnter
-                                                    }
-                                                    handleMouseLeave={
-                                                        handleMouseLeave
-                                                    }
-                                                />
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
+                    {/* Envuelve la lista de jugadores con DragDropContext y Droppable */}
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="players">
+                            {(provided) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                    {players.map((player, index) => (
+                                        // Envuelve cada jugador con Draggable
+                                        <Draggable
+                                            key={player}
+                                            draggableId={player}
+                                            index={index}
+                                        >
+                                            {(provided) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    <PlayerScore
+                                                        player={player}
+                                                        score={
+                                                            playerScores[player]
+                                                        }
+                                                        updateScore={
+                                                            updateScore
+                                                        }
+                                                        removePlayer={
+                                                            removePlayer
+                                                        }
+                                                        hover={hover}
+                                                        handleMouseEnter={
+                                                            handleMouseEnter
+                                                        }
+                                                        handleMouseLeave={
+                                                            handleMouseLeave
+                                                        }
+                                                    />
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
                 </div>
                 <div className="score-check">
                     {calculateTotalScore() === 0 ? (
@@ -414,11 +410,18 @@ function GameBoard() {
                             size={45}
                             title="La suma no es cero"
                         />
+                        
                     )}
                 </div>
-                <button className="button" onClick={handleNextRound}>
-                    Next Round
-                </button>
+                {calculateTotalScore() === 0 && (
+  <button
+    className="button"
+    onClick={handleNextRound}
+    disabled={calculateTotalScore() !== 0}
+  >
+    Next Round
+  </button>
+)}
                 <button className="button" onClick={handleReset}>
                     Reset
                 </button>
