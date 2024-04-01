@@ -1,7 +1,7 @@
 // App.js
 import React from "react"
 import GameBoard from "./GameBoard"
-import Drag from "./Drag"
+ 
 
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
         <div className="App">
             <h1>Backgammon Chouette</h1>
             <GameBoard />
-            <Drag/>
+     
         </div>
     )
 }

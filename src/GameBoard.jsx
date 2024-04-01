@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from "react"
 import { FaEdit } from "react-icons/fa" // Ícono de editar (Font Awesome)
 import { RiDeleteBin6Line } from "react-icons/ri" // Ícono de eliminar (Remix Icon)
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai" // Importa los íconos de la librería
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
 
 function PlayerScore({
     player,
@@ -16,8 +18,17 @@ function PlayerScore({
         updateScore(player, points)
     }
     const hoverClass = hover ? "hover-effect" : ""
+
+  
+
+   
+
+ 
     return (
-        <div className="player-score ">
+        <div
+            className="player-score "
+  
+        >
             <h3>{player}</h3>
             <p className="score">{score}</p>
             <button
@@ -148,8 +159,8 @@ function GameBoard() {
     const handleNextRound = () => {
         // Agrega la ronda actual a la lista de rondas
         const updatedRounds = [...rounds, { ...editScores }]
-       
-        setRounds(updatedRounds )
+
+        setRounds(updatedRounds)
 
         // Reinicia los puntajes para la próxima ronda
         setPlayerScores(initialPlayerScores)
@@ -316,7 +327,17 @@ function GameBoard() {
             0
         )
     }
-
+    const onDragEnd = (result) => {
+        if (!result.destination) {
+          return;
+        }
+      
+        const items = Array.from(players);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+      
+        setPlayers(items);
+      };
     return (
         <>
             <div className="game-board">
@@ -333,19 +354,52 @@ function GameBoard() {
                         Add Player
                     </button>
                 </div>
+                
+                
                 <div>
-                    {players.map((player) => (
-                        <PlayerScore
-                            key={player}
-                            player={player}
-                            score={playerScores[player]}
-                            updateScore={updateScore}
-                            removePlayer={removePlayer}
-                            hover={hover}
-                            handleMouseEnter={handleMouseEnter}
-                            handleMouseLeave={handleMouseLeave}
-                        />
-                    ))}
+                {/* Envuelve la lista de jugadores con DragDropContext y Droppable */}
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="droppable-players">
+                        {(provided) => (
+                            <div
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                {players.map((player, index) => (
+                                    // Envuelve cada jugador con Draggable
+                                    <Draggable
+                                        key={player}
+                                        draggableId={player}
+                                        index={index}
+                                    >
+                                        {(provided) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <PlayerScore
+                                                    player={player}
+                                                    score={playerScores[player]}
+                                                    updateScore={updateScore}
+                                                    removePlayer={removePlayer}
+                                                    hover={hover}
+                                                    handleMouseEnter={
+                                                        handleMouseEnter
+                                                    }
+                                                    handleMouseLeave={
+                                                        handleMouseLeave
+                                                    }
+                                                />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
                 </div>
                 <div className="score-check">
                     {calculateTotalScore() === 0 ? (
@@ -383,7 +437,7 @@ function GameBoard() {
                 <table className="table-container">
                     <thead>
                         <tr className="total-row ">
-                            <th >Ronda/Jugadores</th>
+                            <th>Ronda/Jugadores</th>
                             {players.map((player) => (
                                 <th key={player}>{player}</th>
                             ))}
@@ -403,12 +457,12 @@ function GameBoard() {
                         {reversedRounds.map((round, index) => (
                             <tr key={index}>
                                 <td>{reversedRounds.length - index}</td>
-                                
+
                                 {players.map((player) => (
                                     <td key={player}>{round[player] || 0}</td>
                                 ))}
                                 <td>
-                        <input type="checkbox" />
+                                    <input type="checkbox" />
                                     <div className="action-buttons">
                                         {editIndex !== index ? (
                                             <>
@@ -428,7 +482,6 @@ function GameBoard() {
                                                 >
                                                     <RiDeleteBin6Line />
                                                 </button>
-                                             
                                             </>
                                         ) : (
                                             <>

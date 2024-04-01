@@ -163,3 +163,86 @@ body {
   text-align: center; /* Centra el contenido horizontalmente */
   vertical-align: middle; /* Centra el contenido verticalmente */
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.player-score {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.button:hover {
+  animation: pulse 1s infinite;
+}
+
+@keyframes highlight {
+  from {
+    background-color: #ff3e3e;
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+.remove-player-button:hover {
+  animation: highlight 0.5s ease-in-out;
+}
+
+@keyframes colorShift {
+  0% {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    background-color: rgba(255, 255, 0, 0.2);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.total-row {
+  animation: colorShift 3s infinite;
+}
+
+.table-container {
+  transition: transform 0.3s ease-in-out;
+}
+
+.table-container:hover {
+  transform: translateX(-10px);
+}
+
+.increment-button:active,
+.decrement-button:active,
+.reset-button:active {
+  animation: grow 0.2s ease forwards;
+}
+
+@keyframes grow {
+  to {
+    transform: scale(1.1);
+  }
+}
+
+
+ 
