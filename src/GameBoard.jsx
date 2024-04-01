@@ -397,31 +397,34 @@ function GameBoard() {
                         </Droppable>
                     </DragDropContext>
                 </div>
-                <div className="score-check">
+                <div style={{display:"flex", alignItems:"center", flexFlow: "column wrap" } } className="score-check">
                     {calculateTotalScore() === 0 ? (
                         <AiOutlineCheckCircle
                             color="green"
-                            size={45}
+                            size={55}
                             title="La suma es cero"
                         />
                     ) : (
+                        <>
+
                         <AiOutlineCloseCircle
                             color="red"
-                            size={45}
+                            size={55}
                             title="La suma no es cero"
                         />
-                        
+                        <p style={{justifyContent:"center"}} >LA SUMATORIA NO ES CERO</p>
+                        </>
                     )}
                 </div>
                 {calculateTotalScore() === 0 && (
-  <button
-    className="button"
-    onClick={handleNextRound}
-    disabled={calculateTotalScore() !== 0}
-  >
-    Next Round
-  </button>
-)}
+                    <button
+                        className="button"
+                        onClick={handleNextRound}
+                        disabled={calculateTotalScore() !== 0}
+                    >
+                        Next Round
+                    </button>
+                )}
                 <button className="button" onClick={handleReset}>
                     Reset
                 </button>
