@@ -148,7 +148,8 @@ function GameBoard() {
     const handleNextRound = () => {
         // Agrega la ronda actual a la lista de rondas
         const updatedRounds = [...rounds, { ...editScores }]
-        setRounds(updatedRounds)
+       
+        setRounds(updatedRounds )
 
         // Reinicia los puntajes para la próxima ronda
         setPlayerScores(initialPlayerScores)
@@ -395,16 +396,19 @@ function GameBoard() {
                             {players.map((player) => (
                                 <td key={player}>{totalRow[player] || 0}</td>
                             ))}
-                            <td></td>
+                            <td>
+                                <input type="checkbox" />
+                            </td>
                         </tr>
                         {reversedRounds.map((round, index) => (
                             <tr key={index}>
                                 <td>{reversedRounds.length - index}</td>
-
+                                
                                 {players.map((player) => (
                                     <td key={player}>{round[player] || 0}</td>
                                 ))}
                                 <td>
+                        <input type="checkbox" />
                                     <div className="action-buttons">
                                         {editIndex !== index ? (
                                             <>
@@ -424,6 +428,7 @@ function GameBoard() {
                                                 >
                                                     <RiDeleteBin6Line />
                                                 </button>
+                                             
                                             </>
                                         ) : (
                                             <>

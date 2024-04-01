@@ -157,3 +157,9 @@ body {
   text-align: center;
   vertical-align: middle;
  }
+
+ .table-container th,
+.table-container td {
+  text-align: center; /* Centra el contenido horizontalmente */
+  vertical-align: middle; /* Centra el contenido verticalmente */
+}
