@@ -22,6 +22,7 @@ function PlayerScore({ player, score, updateScore }) {
             >
                 -1
             </button>
+       
             <button
                 className="remove-player-button"
                 onClick={() => removePlayer(player)}

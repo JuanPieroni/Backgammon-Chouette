@@ -1,260 +1,159 @@
+ /* General styles for mobile-first design */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-
-/* Estilos para los botones */
-.button {
-  background-color: #4caf50;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  font-size: 1.2em; /* Tamaño de fuente grande y claro */
-  margin: 10px; /* Espaciado entre elementos */
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-/* Estilos para la línea "TOTAL" */
-.total-row {
-  background-color: #f2f2f2;
-  font-size: 1.5em; /* Tamaño de fuente grande para la fila de totales */
-  font-weight: bold; /* Negrita para destacar los totales */
-}
-/* Estilos para los botones de sumar y restar */
-.increment-button,
-.decrement-button  {
-  background-color: #3498db;
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1.5em; /* Tamaño de fuente grande para los botones */
-  margin: 5px; /* Espaciado entre botones */
-  margin-right: 4px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-.remove-player-button {
-  background-color: #d10816;
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1.5em; /* Tamaño de fuente grande para los botones */
-  margin: 5px; /* Espaciado entre botones */
-  margin-right: 4px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-.decrement-button {
-  background-color: #62c438;
-}
-
-/* Estilos para las líneas separadoras */
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td,
-th {
-  border: 1px solid #dddddd;
-  text-align: center;
-  padding: 8px;
-}
-
-/* Estilos para los botones de acción */
-.action-button {
-  background-color: #3498db;
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin: 0 5px;
-  cursor: pointer;
-  border-radius: 4px;
-   
-}
-
-.action-button.delete {
-  background-color: #e74c3c;
-}
-
-/* Estilos para centrar y distribuir los elementos en la tabla */
-td:last-child {
-  text-align: center;
-}
-
-td:last-child .action-button {
-  text-align: center;
-  margin-right: 4px;
-}
-
- /* Estilos para los jugadores */
-.player-scores {
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+  }
   
- position: absolute;
- display: grid;
- grid-template-columns: auto auto;
- gap: 10px;
- 
-  left: 10px; /* Ajusta según sea necesario para acercarlo al borde izquierdo */
-  top: 20rem; /* Ajusta según sea necesario para la posición vertical */
- 
+  /* Styling for the game board */
+  .game-board {
+    padding: 20px;
+    background: linear-gradient(35deg, #6e8efb, #a777e3);
+    color: #fff;
+    min-height: 100vh;
+  }
   
-}
-
-/* Estilos para cada jugador */
-.player {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-/* Estilos para el nombre del jugador */
-.player-name {
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-/* Estilos para el puntaje */
-.score {
-  font-size: 2em; /* Tamaño de fuente grande para el puntaje */
-  color: #333; /* Color oscuro para mejor legibilidad */
-  margin: 10px 0; /* Espaciado vertical */
-}
-
-/* Estilos para la columna "Total" */
-.total-column {
-  width: 100px; /* Ajusta el ancho según sea necesario */
-  border-bottom: 2px solid #333; 
-}
-
-.total-row td {
-  background-color: #f2f2f2; /* Color de fondo diferente para resaltar la fila */
-  font-weight: bold; /* Hace que el texto sea más destacado */
-}
-/* Estilos para la celda de acciones */
-.action-buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px; /* Espacio entre botones */
-}
-
-.input-player-name {
+  /* Input and button styles */
+  .input-button input,
+  .button {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+  }
   
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  width: 200px;
-}
-
-.game-board {
- 
-  font-family: 'Permanent Marker', cursive; /* Fuente de estilo marcador */
-  text-align: center;
-  margin: 0 auto; /* Centrar el tablero con márgenes automáticos */
-  max-width: 800px; /* Ancho máximo para el tablero */
-  padding: 20px;
-}
-
-.player-score {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgb(229, 216, 216); /* Fondo claro para cada jugador */
-  border-radius: 10px; /* Bordes redondeados */
-  padding: 20px;
-  margin-bottom: 20px; /* Espaciado entre jugadores */
+  .input-button input {
+    flex-grow: 1;
+  }
   
-}
-.player-score:hover {
-  transform: scale(1.02); /* Efecto de escala al pasar el mouse */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada al pasar el mouse */
-}
-.action-buttons {
-  display: flex;
-  justify-content: center; /* Centrar botones de acción */
-}
-
-.action-button.delete-button {
-  background-color: #e74c3c;
-}
-
-.input-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px 20px;
-}
-
-.App {
-  background-color: rgb(182, 253, 132);
-  display: grid;
+  .button {
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
   
-}
-
-/* Mobile styles */
-@media (max-width: 600px) {
+  .button:hover {
+    background-color: #f7f7f7;
+  }
+  
+  /* Player score card styles */
   .player-score {
-      flex-direction: row;
-      justify-content: space-between;
-      width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    position: relative;
   }
-
+  
+  .player-score h3 {
+    margin: 0;
+  }
+  
   .score {
-      margin: 0 10px;
+    font-size: 1.5em;
+    font-weight: bold;
   }
-
+  
+  /* Increment and decrement button styles */
   .increment-button,
   .decrement-button,
+  .reset-button {
+    background: #eed7d7;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .increment-button:active,
+  .decrement-button:active,
+  .reset-button:active {
+    transform: scale(0.9);
+  }
+  
+  /* Remove player button styles */
   .remove-player-button {
-      flex-grow: 1;
-      margin: 5px 2px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
   }
-
-  .input-button,
-  .button,
-  .reincorporate-player-button,
-  .action-button {
-      width: 100%;
-      margin-top: 10px;
-  }
-
+  
+  /* Table styles */
   .table-container {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  .table-container th,
+  .table-container td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #fff;
+  }
+  
+  .total-row {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .total-column {
+    font-weight: bold;
+  }
+  
+  /* Action button styles */
+  .action-buttons button {
+    margin-right: 5px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .action-buttons button:hover {
+    color: #f7f7f7;
+  }
+  
+  /* Responsive design for smaller devices */
+  @media (max-width: 768px) {
+    .game-board {
+      padding: 10px;
+    }
+  
+    .player-score {
+      padding: 20px;
+    }
+  
+    .table-container {
+      display: block;
       overflow-x: auto;
+      white-space: nowrap;
+    }
   }
 
-  .action-buttons {
-      display: flex;
-      justify-content: center;
+  .hoverable-element {
+    padding: 20px;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease;
   }
-}
+  
+  .hoverable-element.hover-effect {
+    background-color: #e0e0e0; /* Cambia el color de fondo al pasar el cursor */
+  }
 
-/* Tablet styles */
-@media (min-width: 601px) and (max-width: 1024px) {
-  /* Adjust styles for tablet screens if necessary */
-}
-
-/* Desktop styles */
-@media (min-width: 1025px) {
-  /* Adjust styles for desktop screens if necessary */
-}
+ .text-center {
+  text-align: center;
+  vertical-align: middle;
+ }

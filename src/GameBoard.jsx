@@ -1,14 +1,23 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { FaEdit } from "react-icons/fa" // Ícono de editar (Font Awesome)
 import { RiDeleteBin6Line } from "react-icons/ri" // Ícono de eliminar (Remix Icon)
+import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai" // Importa los íconos de la librería
 
-function PlayerScore({ player, score, updateScore, removePlayer }) {
+function PlayerScore({
+    player,
+    score,
+    updateScore,
+    removePlayer,
+    hover,
+    handleMouseEnter,
+    handleMouseLeave,
+}) {
     const handleUpdateScore = (points) => {
         updateScore(player, points)
     }
-
+    const hoverClass = hover ? "hover-effect" : ""
     return (
-        <div className="player-score">
+        <div className="player-score ">
             <h3>{player}</h3>
             <p className="score">{score}</p>
             <button
@@ -23,6 +32,7 @@ function PlayerScore({ player, score, updateScore, removePlayer }) {
             >
                 -1
             </button>
+            <button className="reset-button">0</button>
             <button
                 className="remove-player-button"
                 onClick={() => removePlayer(player)}
@@ -35,22 +45,31 @@ function PlayerScore({ player, score, updateScore, removePlayer }) {
 
 function GameBoard() {
     const [players, setPlayers] = useState([])
+
     const [playerName, setPlayerName] = useState("")
     const [playerScores, setPlayerScores] = useState({})
     const [rounds, setRounds] = useState([])
+
     const [roundCount, setRoundCount] = useState(0)
     const [editIndex, setEditIndex] = useState(null)
     const [deletedRounds, setDeletedRounds] = useState([])
     const [deletedPlayers, setDeletedPlayers] = useState([])
 
+    // Estado para controlar si el cursor está sobre el elemento
+    const [hover, setHover] = useState(false)
+
+    // Funciones para manejar los eventos de entrada y salida del cursor
+    const handleMouseEnter = () => setHover(true)
+    const handleMouseLeave = () => setHover(false)
+    const hoverClass = hover ? "hover-effect" : ""
     const initialPlayerScores = useMemo(() => {
         return players.reduce((scores, player) => {
             scores[player] = 0
             return scores
         }, {})
     }, [players])
-    const [editScores, setEditScores] = useState(initialPlayerScores)
 
+    const [editScores, setEditScores] = useState(initialPlayerScores)
     useEffect(() => {
         setEditScores(initialPlayerScores)
     }, [players, initialPlayerScores])
@@ -127,39 +146,9 @@ function GameBoard() {
     }
 
     const handleNextRound = () => {
-        // Calcula el totalScore sumando los puntajes de todos los jugadores
-        const totalScore = Object.values(editScores).reduce(
-            (total, score) => total + score,
-            0
-        )
-
-        // Encuentra el último jugador
-        const lastPlayer = players[players.length - 1]
-
-        // Si el totalScore no es 0, ajusta el puntaje del último jugador
-        if (totalScore !== 0) {
-            // Ajusta el puntaje del último jugador para que la suma sea cero
-            const adjustedScores = {
-                ...editScores,
-                [lastPlayer]: editScores[lastPlayer] - totalScore,
-            }
-
-            // Establece los puntajes ajustados
-            setEditScores(adjustedScores)
-
-            // Muestra un mensaje indicando el ajuste
-            alert(
-                `El puntaje del último jugador "${lastPlayer}" ha sido ajustado en ${-totalScore} para que la suma sea cero.`
-            )
-
-            // Procede con la siguiente ronda usando los puntajes ajustados
-            const updatedRounds = [...rounds, adjustedScores]
-            setRounds(updatedRounds)
-        } else {
-            // Si el totalScore es 0, procede con la siguiente ronda
-            const updatedRounds = [...rounds, { ...editScores }]
-            setRounds(updatedRounds)
-        }
+        // Agrega la ronda actual a la lista de rondas
+        const updatedRounds = [...rounds, { ...editScores }]
+        setRounds(updatedRounds)
 
         // Reinicia los puntajes para la próxima ronda
         setPlayerScores(initialPlayerScores)
@@ -230,23 +219,34 @@ function GameBoard() {
     }
     // ... (resto del código)
 
-    const handleDeleteRound = (index) => {
-        const deletedRound = { index, round: rounds[index] }
+    const handleDeleteRound = (indexToDelete) => {
+        // Ten en cuenta que estamos trabajando con las rondas invertidas
+        const trueIndex = rounds.length - 1 - indexToDelete
+
+        // Captura la ronda que se va a eliminar
+        const roundToDelete = rounds[trueIndex]
+
+        // Actualiza el estado para eliminar la ronda
         setRounds((prevRounds) => {
             const updatedRounds = [...prevRounds]
-            updatedRounds.splice(index, 1)
+            updatedRounds.splice(trueIndex, 1) // Elimina la ronda en el índice correcto
             return updatedRounds
         })
+
+        // Agrega la ronda eliminada y su índice a la lista de rondas eliminadas
         setDeletedRounds((prevDeletedRounds) => [
-            deletedRound,
+            { round: roundToDelete, index: trueIndex }, // Guarda la ronda y su índice
             ...prevDeletedRounds,
         ])
+
+        // Resetea el índice de edición
         setEditIndex(null)
     }
 
     const handleEditRound = (index) => {
         setEditIndex(index)
         setEditScores(rounds[index])
+        setRoundCount(roundCount + 1)
     }
 
     const handleSaveRound = () => {
@@ -281,17 +281,40 @@ function GameBoard() {
 
     const handleRedo = () => {
         if (deletedRounds.length > 0) {
-            const { index, round } = deletedRounds[0]
+            // Toma la última ronda eliminada y el resto de las rondas eliminadas
+            const [lastDeletedRound, ...remainingDeletedRounds] = deletedRounds
+
+            // Verifica que lastDeletedRound tenga una propiedad 'index'
+            if (typeof lastDeletedRound.index !== "number") {
+                console.error(
+                    "La ronda eliminada no tiene una propiedad index válida",
+                    lastDeletedRound
+                )
+                return // Salir de la función si no hay un índice válido
+            }
+
             setRounds((prevRounds) => {
                 const updatedRounds = [...prevRounds]
-                updatedRounds.splice(index, 0, round)
+                // Inserta la ronda eliminada en la posición correcta usando el índice
+                updatedRounds.splice(
+                    lastDeletedRound.index,
+                    0,
+                    lastDeletedRound.round
+                )
                 return updatedRounds
             })
-            setDeletedRounds(deletedRounds.slice(1))
+
+            // Actualiza el estado de las rondas eliminadas
+            setDeletedRounds(remainingDeletedRounds)
         }
     }
-
     const reversedRounds = [...rounds].reverse()
+    const calculateTotalScore = () => {
+        return Object.values(playerScores).reduce(
+            (total, score) => total + score,
+            0
+        )
+    }
 
     return (
         <>
@@ -309,7 +332,7 @@ function GameBoard() {
                         Add Player
                     </button>
                 </div>
-                <div className="player-scores">
+                <div>
                     {players.map((player) => (
                         <PlayerScore
                             key={player}
@@ -317,8 +340,26 @@ function GameBoard() {
                             score={playerScores[player]}
                             updateScore={updateScore}
                             removePlayer={removePlayer}
+                            hover={hover}
+                            handleMouseEnter={handleMouseEnter}
+                            handleMouseLeave={handleMouseLeave}
                         />
                     ))}
+                </div>
+                <div className="score-check">
+                    {calculateTotalScore() === 0 ? (
+                        <AiOutlineCheckCircle
+                            color="green"
+                            size={45}
+                            title="La suma es cero"
+                        />
+                    ) : (
+                        <AiOutlineCloseCircle
+                            color="red"
+                            size={45}
+                            title="La suma no es cero"
+                        />
+                    )}
                 </div>
                 <button className="button" onClick={handleNextRound}>
                     Next Round
@@ -340,8 +381,8 @@ function GameBoard() {
 
                 <table className="table-container">
                     <thead>
-                        <tr className="total-row">
-                            <th>Ronda/Jugadores</th>
+                        <tr className="total-row ">
+                            <th >Ronda/Jugadores</th>
                             {players.map((player) => (
                                 <th key={player}>{player}</th>
                             ))}
@@ -354,12 +395,12 @@ function GameBoard() {
                             {players.map((player) => (
                                 <td key={player}>{totalRow[player] || 0}</td>
                             ))}
-                            <td>Agregar icono de tilde si la cuenta DA</td>
+                            <td></td>
                         </tr>
                         {reversedRounds.map((round, index) => (
                             <tr key={index}>
-                                <td>{reversedRounds.length - index}</td>{" "}
-                                {/* Ajusta el número de la ronda */}
+                                <td>{reversedRounds.length - index}</td>
+
                                 {players.map((player) => (
                                     <td key={player}>{round[player] || 0}</td>
                                 ))}
