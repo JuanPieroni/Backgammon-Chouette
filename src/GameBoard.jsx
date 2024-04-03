@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react"
-import { FaEdit } from "react-icons/fa" // Ícono de editar (Font Awesome)
+
 import { RiDeleteBin6Line } from "react-icons/ri" // Ícono de eliminar (Remix Icon)
 import { GiBackgammon } from "react-icons/gi" // Ícono de backgammon (Glyphicon)
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai" // Importa los íconos de la librería
@@ -9,15 +9,12 @@ function PlayerScore({
     player,
     score,
     updateScore,
-    removePlayer,
+
     hover,
-    handleMouseEnter,
-    handleMouseLeave,
 }) {
     const handleUpdateScore = (points) => {
         updateScore(player, points)
     }
-    const hoverClass = hover ? "hover-effect" : ""
 
     return (
         <div className="player-score ">
@@ -52,13 +49,6 @@ function PlayerScore({
                 >
                     -1
                 </button>
-
-                <button
-                    className="remove-player-button"
-                    onClick={() => removePlayer(player)}
-                >
-                    <RiDeleteBin6Line />
-                </button>
             </div>
         </div>
     )
@@ -68,6 +58,7 @@ function GameBoard() {
     const [players, setPlayers] = useState([])
 
     const [playerName, setPlayerName] = useState("")
+
     const [playerScores, setPlayerScores] = useState({})
     const [rounds, setRounds] = useState([])
 
@@ -189,58 +180,6 @@ function GameBoard() {
         return totals
     }, {})
 
-    const removePlayer = (playerToRemove) => {
-        const deletedPlayerInfo = {
-            name: playerToRemove,
-            scores: rounds.map((round) => round[playerToRemove]),
-        }
-
-        setDeletedPlayers([...deletedPlayers, deletedPlayerInfo])
-        // Actualiza la lista de jugadores
-        setPlayers(players.filter((player) => player !== playerToRemove))
-
-        // Actualiza los puntajes de los jugadores
-        const { [playerToRemove]: _, ...newPlayerScores } = playerScores
-        setPlayerScores(newPlayerScores)
-
-        // Actualiza las rondas para eliminar los puntajes del jugador
-        const newRounds = rounds.map((round) => {
-            const { [playerToRemove]: _, ...newRound } = round
-            return newRound
-        })
-        setRounds(newRounds)
-    }
-
-    const reincorporatePlayer = () => {
-        if (deletedPlayers.length > 0) {
-            // Toma el último jugador eliminado
-            const lastDeletedPlayer = deletedPlayers[deletedPlayers.length - 1]
-
-            // Agrega el jugador de nuevo a la lista de jugadores
-            setPlayers([...players, lastDeletedPlayer.name])
-
-            // Agrega los puntajes del jugador a cada ronda
-            const newRounds = rounds.map((round, index) => ({
-                ...round,
-                [lastDeletedPlayer.name]: lastDeletedPlayer.scores[index],
-            }))
-            setRounds(newRounds)
-
-            // Actualiza los puntajes de los jugadores
-            setPlayerScores({
-                ...playerScores,
-                [lastDeletedPlayer.name]: lastDeletedPlayer.scores.reduce(
-                    (a, b) => a + b,
-                    0
-                ),
-            })
-
-            // Elimina el jugador de la lista de jugadores eliminados
-            setDeletedPlayers(deletedPlayers.slice(0, -1))
-        }
-    }
-    // ... (resto del código)
-
     const handleDeleteRound = (indexToDelete) => {
         // Ten en cuenta que estamos trabajando con las rondas invertidas
         const trueIndex = rounds.length - 1 - indexToDelete
@@ -263,12 +202,6 @@ function GameBoard() {
 
         // Resetea el índice de edición
         setEditIndex(null)
-    }
-
-    const handleEditRound = (index) => {
-        setEditIndex(index)
-        setEditScores(rounds[index])
-        setRoundCount(roundCount + 1)
     }
 
     const handleSaveRound = () => {
@@ -351,13 +284,15 @@ function GameBoard() {
     return (
         <>
             <div className="game-board">
-            <h1>Backgammon Chouette</h1>
-                <h2>Game Board</h2>
+                <h1>Backgammon Chouette</h1>
+
                 <div className="input-button">
                     <input
                         type="text"
                         value={playerName}
-                        onChange={(e) => setPlayerName(e.target.value)}
+                        onChange={(e) =>
+                            setPlayerName(e.target.value.toLocaleUpperCase())
+                        }
                         placeholder="Agregar Jugador"
                         className="input-player-name"
                     />
@@ -369,7 +304,7 @@ function GameBoard() {
                 <div>
                     {/* Envuelve la lista de jugadores con DragDropContext y Droppable */}
                     <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="players">
+                        <Droppable droppableId="droppjable-players">
                             {(provided) => (
                                 <div
                                     {...provided.droppableProps}
@@ -395,9 +330,6 @@ function GameBoard() {
                                                         }
                                                         updateScore={
                                                             updateScore
-                                                        }
-                                                        removePlayer={
-                                                            removePlayer
                                                         }
                                                         hover={hover}
                                                         handleMouseEnter={
@@ -439,7 +371,7 @@ function GameBoard() {
                                 title="La suma no es cero"
                             />
                             <p style={{ justifyContent: "center" }}>
-                                LA SUMATORIA NO ES CERO
+                                LA SUMA NO DA CERO
                             </p>
                         </>
                     )}
@@ -450,7 +382,7 @@ function GameBoard() {
                         onClick={handleNextRound}
                         disabled={calculateTotalScore() !== 0}
                     >
-                        Next Round
+                        Anotar
                     </button>
                 )}
                 <button className="button" onClick={handleReset}>
@@ -484,9 +416,7 @@ function GameBoard() {
                             {players.map((player) => (
                                 <td key={player}>{totalRow[player] || 0}</td>
                             ))}
-                            <td>
-                                <input type="checkbox" />
-                            </td>
+                            <td></td>
                         </tr>
                         {reversedRounds.map((round, index) => (
                             <tr key={index}>
@@ -496,18 +426,9 @@ function GameBoard() {
                                     <td key={player}>{round[player] || 0}</td>
                                 ))}
                                 <td>
-                                    <input type="checkbox" />
                                     <div className="action-buttons">
                                         {editIndex !== index ? (
                                             <>
-                                                <button
-                                                    className="action-button"
-                                                    onClick={() =>
-                                                        handleEditRound(index)
-                                                    }
-                                                >
-                                                    <FaEdit />
-                                                </button>
                                                 <button
                                                     className="action-button delete-button"
                                                     onClick={() =>
