@@ -304,7 +304,7 @@ function GameBoard() {
                 <div>
                     {/* Envuelve la lista de jugadores con DragDropContext y Droppable */}
                     <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="droppjable-players">
+                        <Droppable droppableId="droppable-players">
                             {(provided) => (
                                 <div
                                     {...provided.droppableProps}

@@ -400,6 +400,9 @@ body {
 
 th, td {
   color: #010911;
+
 }
 
- 
+ th {
+  font-weight: 900;
+ }
