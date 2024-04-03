@@ -326,14 +326,11 @@ function GameBoard() {
                             autoClose={1000}
                             hideProgressBar={false}
                             newestOnTop={false}
-                                       draggable
+                            draggable
                             pauseOnHover
                             theme="light"
                             transition:Bounce
                         />
-                 
-                         
-                
                     </div>
                 </div>
 
@@ -443,7 +440,7 @@ function GameBoard() {
                             {players.map((player) => (
                                 <th key={player}>{player}</th>
                             ))}
-                            <th>Acciones</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

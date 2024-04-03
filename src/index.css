@@ -1,190 +1,182 @@
- /* General styles for mobile-first design */
- @font-face {
+/* General styles for mobile-first design */
+@font-face {
   font-family: 'SCOREBOARD';
-  src:  
-       url('./fonts/SCOREBOARD.ttf') format('truetype');
+  src: url('./fonts/SCOREBOARD.ttf') format('truetype');
   /* Add additional font formats if necessary */
   /* Specify the correct path to the font files */
 }
 
- 
- * {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-  }
-  h2 {
-    text-align: center;
-      padding: 1rem;
-   font-size: xx-large;
-    font-weight: 400;
- 
-    font-variation-settings:
-      "MORF" 15,
-      "SHLN" 69.1;
-  }
-  h1 {
-    text-align: center;
-     font-family: "Honk", system-ui; 
-    font-size: xx-large;
-     font-weight: 400;
-     font-style:  oblique;
-     font-variation-settings:
-       "MORF" 15,
-       "SHLN" 69.1;
-       margin-bottom: 30px;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-width: 0
+}
 
-  .title {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-variant: small-caps;
-  }
+h2, h1 {
+  text-align: center;
+  font-size: xx-large;
+  font-weight: 400;
+  font-variation-settings: "MORF" 15, "SHLN" 69.1;
+}
+
+h1 {
+  font-family: "Honk", system-ui;
+  font-style: oblique;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-variant: small-caps;
+}
+
 body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* Styling for the game board */
-  .game-board {
-    padding: 20px;
-    background: linear-gradient(35deg, #6e8efb, #a777e3);
-    color: #fff;
-    min-height: 100vh;
-  }
-  
-  /* Input and button styles */
-  .input-button input,
-  .button {
-    padding: 10px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  .input-button input {
-    flex-grow: 1;
-  }
-  
-  .button {
-    background-color: #fff;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #f7f7f7;
-  }
-  
-  /* Player score card styles */
-  .player-score {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 10px;
-    position: relative;
-  }
-  
-  .player-score h3 {
-    margin: 0;
-  }
-  
-  
-    .score {
-      font-size: 80px; /* Even larger font size for score */
-      font-weight: lighter;
-      color: #010911; /* Blue color to stand out */
-      font-family: "SCOREBOARD";
-    }
- 
-  
- 
-  
- 
-  
-  /* Remove player button styles */
-  .remove-player-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  /* Table styles */
-  .table-container {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-  }
-  
-  .table-container th,
-  .table-container td {
-    text-align: left;
-    padding: 10px;
-    border: 1px solid #fff;
-  }
-  
-  .total-row {
-    background: rgba(255, 255, 255, 0.2);
-  }
-  
-  .total-column {
-    font-weight: bold;
-  }
-  
-  /* Action button styles */
-  .action-buttons button {
-    margin-right: 5px;
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-  
-  .action-buttons button:hover {
-    color: #f7f7f7;
-  }
-  
-  /* Responsive design for smaller devices */
-  @media (max-width: 768px) {
-    .game-board {
-      padding: 10px;
-    }
-  
-    .player-score {
-      padding: 20px;
-    }
-  
-    .table-container {
- 
-      overflow-x: auto; /* Permite el desplazamiento horizontal si es necesario */
-  margin-right: 0; /* Elimina el margen derecho adicional */
-    }
-  }
+  font-family: 'Arial', sans-serif;
+   
+}
 
-  .hoverable-element {
-    padding: 20px;
-    border: 1px solid #ccc;
-    transition: background-color 0.3s ease;
-  }
-  
-  .hoverable-element.hover-effect {
-    background-color: #e0e0e0; /* Cambia el color de fondo al pasar el cursor */
-  }
+/* Styling for the game board */
+.game-board {
+  padding: 20px;
+  background: linear-gradient(35deg, #6e8efb, #a777e3);
+  color: #fff;
+  min-height: 100vh;
+}
 
- .text-center {
+/* Input and button styles */
+.input-button input,
+.button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+}
+
+.button {
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #f7f7f7;
+}
+
+/* Player score card styles */
+.player-score {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  animation: fadeInUp 0.5s ease-out forwards;
+  text-align: center;
+}
+
+.player-score h3 {
+  margin: 0;
+}
+
+.score {
+  font-size: 80px;
+  font-weight: lighter;
+  color: #010911;
+  font-family: "SCOREBOARD";
+}
+
+/* Remove player button styles */
+.remove-player-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Table styles */
+.table-container {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+.table-container th,
+.table-container td {
+  padding: 12px 15px;
+  border: 1px solid #fff;
   text-align: center;
   vertical-align: middle;
- }
+  white-space: nowrap; /* Asegura que el contenido de la celda no se envuelva */
+  overflow: hidden; /* Oculta el contenido que excede el ancho de la celda */
+   
+  max-width: 0; /* Permite que las celdas se contraigan */
+}
 
- .table-container th,
-.table-container td {
-  text-align: center; /* Centra el contenido horizontalmente */
-  vertical-align: middle; /* Centra el contenido verticalmente */
+.total-row {
+  background: rgba(255, 255, 255, 0.2);
+  font-weight: bolder;
+   
+}
+
+.total-column {
+  font-weight: bold;
+}
+
+/* Action button styles */
+.action-buttons button {
+  margin-right: 5px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.action-buttons button:hover {
+  color: #f7f7f7;
+}
+
+/* Responsive design for smaller devices */
+@media (max-width: 768px) {
+  .game-board {
+    padding: 5%;
+  }
+
+  .player-score {
+    padding: 20px;
+  }
+
+  .table-container {
+    margin: 0; /* Elimina márgenes externos */
+    padding: 0; /* Elimina paddings internos */
+    
+  }
+  .table-container th   {
+ font-size: smaller;
+ text-align: left;
+ 
+  }
+ 
+}
+
+.hoverable-element {
+  padding: 20px;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease;
+}
+
+.hoverable-element.hover-effect {
+  background-color: #e0e0e0;
+}
+
+.text-center {
+  text-align: center;
+  vertical-align: middle;
 }
 
 @keyframes fadeInUp {
@@ -196,10 +188,6 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.player-score {
-  animation: fadeInUp 0.5s ease-out forwards;
 }
 
 @keyframes pulse {
@@ -214,10 +202,6 @@ body {
   }
 }
 
-.button:hover {
-  animation: pulse 1s 3000ms ;
-}
-
 @keyframes highlight {
   from {
     background-color: #ff3e3e;
@@ -227,39 +211,28 @@ body {
   }
 }
 
- 
-
- 
-
-.total-row {
-  animation: colorShift 3s infinite;
-}
-
- 
-
- 
- 
-
 @keyframes grow {
   to {
     transform: scale(1.1);
   }
 }
 
+/* Botonera styles */
 .botonera {
   display: flex;
-  gap: 10px; /* Adjust the space between buttons */
+  gap: 10px;
   padding: 10px;
   align-items: center;
   justify-content: center;
 }
 
 .botonera button {
+  width: auto;
   padding: 10px 15px;
   border: 2px solid grey;
-  border-radius: 7px; /* Rounded edges */
-  background-color: #f0f0f0; /* Light grey background */
-  color: #333; /* Dark text for contrast */
+  border-radius: 7px;
+  background-color: #f0f0f0;
+  color: #333;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -268,86 +241,63 @@ body {
 }
 
 .botonera button:hover {
-  background-color: #e0e0e0; /* Slightly darker on hover */
-  border-color: #007bff; /* Blue border on hover */
-  color: #007bff; /* Blue text on hover */
+  background-color: #e0e0e0;
+  border-color: #007bff;
+  color: #007bff;
 }
 
 .botonera .remove-player-button {
-  background-color: transparent; /* No background for the remove button */
-  color: #dc3545; /* Red color for the remove icon */
+  background-color: transparent;
+  color: #dc3545;
 }
 
 .botonera .remove-player-button:hover {
-  background-color: #dc3545; /* Red background on hover */
-  color: #fff; /* White text on hover */
+  background-color: #dc3545;
+  color: #fff;
 }
 
-/* Adjustments for the increment and decrement buttons */
 .botonera .increment-button {
-  color: #28a745; /* Green text */
+  color: #28a745;
 }
 
 .botonera .increment-button:hover {
-  border-color: #28a745; /* Green border on hover */
-  color: #fff; /* White text on hover */
-  background-color: #28a745; /* Green background on hover */
+  border-color: #28a745;
+  color: #fff;
+  background-color: #28a745;
 }
 
 .botonera .decrement-button {
-  color: #dc3545; /* Red text */
+  color: #dc3545;
 }
 
 .botonera .decrement-button:hover {
-  border-color: #dc3545; /* Red border on hover */
-  color: #fff; /* White text on hover */
-  background-color: #dc3545; /* Red background on hover */
-}
-
-.player-score {
-  text-align: center;
-  margin-bottom: 20px; /* Space below the score area */
+  border-color: #dc3545;
+  color: #fff;
+  background-color: #dc3545;
 }
 
 .player-name {
-  font-size: 24px; /* Larger font size for player name */
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 5px; /* Space between name and score */
-  color: #0a0d24d2; /* Dark color for text */
-  font-family: "Holtwood One SC", serif; /* A common, attractive font */
- font-weight: 400;
+  margin-bottom: 5px;
+  color: #0a0d24d2;
+  font-family: "Holtwood One SC", serif;
 }
 
-
 /* TABLE */
- 
 .table-container {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 0.9em;
-  min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .table-container thead tr {
   background-color: #009879;
   color: #ffffff;
-  text-align: left;
-}
-
-.table-container th,
-.table-container td {
-  padding: 12px 15px;
-}
-
-.table-container tbody tr {
-  border-bottom: 1px solid #dddddd;
 }
 
 .table-container tbody tr:nth-of-type(even) {
   background-color: #a0c093;
 }
+
 .table-container tbody tr:nth-of-type(odd) {
   background-color: #bfd6d5e7;
 }
@@ -356,42 +306,14 @@ body {
   border-bottom: 2px solid #009879;
 }
 
-.total-row {
-  font-weight: bold;
-  color: #009879;
-}
-
-.total-column {
-  background-color: #009879;
-  color: #ffffff;
-}
 .total-row .total-column td {
   background-color: #009879;
   color: #ffffff;
   font-size: xx-large;
 }
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.action-button {
-  background-color: #009879;
-  color: #3b423c;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
 
 .action-button:hover {
   background-color: #007961;
-}
-
-.delete-button {
-  background-color: #ff6b6b;
 }
 
 .delete-button:hover {
@@ -400,9 +322,8 @@ body {
 
 th, td {
   color: #010911;
-
 }
 
- th {
+th {
   font-weight: 900;
- }
+}
