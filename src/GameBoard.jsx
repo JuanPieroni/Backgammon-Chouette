@@ -322,18 +322,18 @@ function GameBoard() {
                             Add Player
                         </button>
                         <ToastContainer
-                            position="bottom-right"
-                            autoClose={2000}
+                            position="top-center"
+                            autoClose={1000}
                             hideProgressBar={false}
                             newestOnTop={false}
-                           
-                 
-                         
-                            draggable
+                                       draggable
                             pauseOnHover
                             theme="light"
                             transition:Bounce
                         />
+                 
+                         
+                
                     </div>
                 </div>
 
