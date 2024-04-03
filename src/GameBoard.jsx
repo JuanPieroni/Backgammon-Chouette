@@ -4,6 +4,9 @@ import { RiDeleteBin6Line } from "react-icons/ri" // Ícono de eliminar (Remix I
 import { GiBackgammon } from "react-icons/gi" // Ícono de backgammon (Glyphicon)
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai" // Importa los íconos de la librería
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import Swal from "sweetalert2"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function PlayerScore({
     player,
@@ -106,6 +109,7 @@ function GameBoard() {
     const addPlayer = () => {
         if (playerName.trim() && !players.includes(playerName)) {
             // Agrega el nuevo jugador a la lista de jugadores
+
             setPlayers([...players, playerName])
             // Inicializa el puntaje del nuevo jugador en todas las rondas existentes
             const newRounds = rounds.map((round) => ({
@@ -123,10 +127,22 @@ function GameBoard() {
         }
     }
     const handleResetAll = () => {
-        // Borrar todos los datos del estado y del Local Storage
-        setPlayers([])
-        setRounds([])
-        setPlayerScores({})
+        Swal.fire({
+            title: "Desea eliminar todas las entradas?",
+            text: "Esta accion no se podra deshacer",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Aceptar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Borrar todos los datos del estado y del Local Storage
+                setPlayers([])
+                setRounds([])
+                setPlayerScores({})
+            }
+        })
     }
 
     useEffect(() => {
@@ -281,6 +297,11 @@ function GameBoard() {
 
         setPlayers(items)
     }
+    const notify = () => {
+        addPlayer()
+        toast(`${playerName} se ha sumado a la Chouette`)
+    }
+
     return (
         <>
             <div className="game-board">
@@ -296,9 +317,24 @@ function GameBoard() {
                         placeholder="Agregar Jugador"
                         className="input-player-name"
                     />
-                    <button className="button" onClick={addPlayer}>
-                        Add Player
-                    </button>
+                    <div>
+                        <button className="button" onClick={notify}>
+                            Add Player
+                        </button>
+                        <ToastContainer
+                            position="bottom-right"
+                            autoClose={2000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                           
+                 
+                         
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                            transition:Bounce
+                        />
+                    </div>
                 </div>
 
                 <div>
