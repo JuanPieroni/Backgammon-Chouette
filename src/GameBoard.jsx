@@ -25,22 +25,7 @@ function PlayerScore({
             <p className="score">{score}</p>
 
             <div className="botonera">
-                <button
-                    className="increment-button"
-                    onClick={() => handleUpdateScore(1)}
-                >
-                    +1
-                </button>
-                <button
-                    className="increment-button"
-                    onClick={() => handleUpdateScore(2)}
-                >
-                    +2
-                </button>
-                <span>
-                    <GiBackgammon />{" "}
-                </span>
-                <button
+            <button
                     className="decrement-button"
                     onClick={() => handleUpdateScore(-2)}
                 >
@@ -51,6 +36,21 @@ function PlayerScore({
                     onClick={() => handleUpdateScore(-1)}
                 >
                     -1
+                </button>
+                <span>
+                    <GiBackgammon />{" "}
+                </span>
+          <button
+                    className="increment-button"
+                    onClick={() => handleUpdateScore(1)}
+                >
+                    +1
+                </button>
+                <button
+                    className="increment-button"
+                    onClick={() => handleUpdateScore(2)}
+                >
+                    +2
                 </button>
             </div>
         </div>

@@ -1,11 +1,7 @@
-/* General styles for mobile-first design */
-@font-face {
-  font-family: 'SCOREBOARD';
-  src: url('./fonts/SCOREBOARD.ttf') format('truetype');
-  /* Add additional font formats if necessary */
-  /* Specify the correct path to the font files */
-}
-
+ @font-face {
+  font-family: 'Score Board Normal';
+  src: url('./fonts/scoreboard.ttf');
+ }
 * {
   margin: 0;
   padding: 0;
@@ -66,7 +62,7 @@ body {
 
 /* Player score card styles */
 .player-score {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(10, 6, 6, 0.432);
   border-radius: 10px;
   padding: 15px;
   margin-bottom: 10px;
@@ -81,11 +77,20 @@ body {
 
 .score {
   font-size: 80px;
-  font-weight: lighter;
-  color: #010911;
-  font-family: "SCOREBOARD";
+  font-weight: 100;
+  color: #7ef174;
+  font-family: 'Score Board Normal' ;
+ 
 }
 
+.score {
+  font-size: 80px;
+  font-weight: 100;
+  color: #7ef174;
+  font-family: 'Score Board Normal' ;
+ 
+}
+ 
 /* Remove player button styles */
 .remove-player-button {
   position: absolute;
@@ -327,3 +332,4 @@ th, td {
 th {
   font-weight: 900;
 }
+ 
