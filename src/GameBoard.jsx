@@ -359,7 +359,7 @@ function GameBoard() {
                                                     <PlayerScore
                                                         player={player}
                                                         score={
-                                                            playerScores[player]
+                                                             playerScores[player]
                                                         }
                                                         updateScore={
                                                             updateScore
@@ -404,7 +404,7 @@ function GameBoard() {
                                 title="La suma no es cero"
                             />
                             <p style={{ justifyContent: "center" }}>
-                                LA SUMA NO DA CERO
+                                LA SUMA NO ES CERO
                             </p>
                         </>
                     )}
@@ -422,7 +422,7 @@ function GameBoard() {
                     Reset
                 </button>
                 <button className="button" onClick={handleResetAll}>
-                    Reset ALL
+                    Borrar partida
                 </button>
                 {deletedPlayers.length > 0 && (
                     <button
