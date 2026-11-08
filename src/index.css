@@ -205,6 +205,16 @@ body {
     margin: 0;
     padding: 0;
   }
+  .botonera button {
+    font-size: 15px;
+    padding: 8px 12px;
+  }
+  .botonera .increment-button,
+  .botonera .decrement-button,
+  .botonera .autocomplete-button {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
 }
 
 .hoverable-element {
