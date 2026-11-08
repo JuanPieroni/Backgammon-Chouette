@@ -114,8 +114,8 @@ body {
 .player-score {
   background: rgba(10, 6, 6, 0.432);
   border-radius: 8px;
-  padding: 2px 6px;
-  margin-bottom: 4px;
+  padding: 36px 6px 6px 6px;
+  margin-bottom: 8px;
   position: relative;
   animation: fadeInUp 0.5s ease-out forwards;
   text-align: center;
@@ -126,7 +126,7 @@ body {
 }
 
 .score {
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 400;
   color: #7ef174;
   font-family: 'Russo One', sans-serif;
@@ -323,29 +323,37 @@ body {
 }
 
 .player-name {
-  font-size: 18px;
+  font-size: 1rem;
   font-weight: 700;
-  margin-top: -6px;
-  margin-bottom: -2px;
   color: #fff;
-  letter-spacing: 1.5px;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
   text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: rgba(0,0,0,0.6);
+  padding: 3px 9px;
+  border-radius: 5px;
 }
 
 .accumulated-badge {
   position: absolute;
   top: 6px;
   left: 6px;
-  background: rgba(0,0,0,0.5);
-  color: #fff;
+  background: rgba(0,0,0,0.6);
+  color: #ffd700;
   font-family: 'Orbitron', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  padding: 3px 7px;
+  padding: 3px 9px;
   border-radius: 5px;
   letter-spacing: 1px;
   min-width: 1.5rem;
   text-align: center;
+  text-shadow: 0 0 8px rgba(255,215,0,0.6);
 }
 
 .swal-compact {
