@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react"
 
 import { RiDeleteBin6Line } from "react-icons/ri" // Ícono de eliminar (Remix Icon)
-import { GiBackgammon } from "react-icons/gi" // Ícono de backgammon (Glyphicon)
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai" // Importa los íconos de la librería
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
 import Swal from "sweetalert2"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -12,46 +11,40 @@ function PlayerScore({
     player,
     score,
     updateScore,
-
-    hover,
+    setScore,
+    totalScore,
+    removePlayer,
+    accumulated,
 }) {
     const handleUpdateScore = (points) => {
         updateScore(player, points)
     }
 
+    const handleAutoComplete = () => {
+        const resto = -(totalScore - score)
+        setScore(player, resto)
+    }
+
     return (
         <div className="player-score ">
             <h3 className="player-name">{player}</h3>
+            <div className="accumulated-badge" title="Puntaje acumulado">{accumulated > 0 ? `+${accumulated}` : accumulated}</div>
+            <button
+                className="remove-player-button"
+                onClick={() => removePlayer(player)}
+                title="Eliminar jugador"
+                style={{ position: 'absolute', top: 6, right: 6, background: 'none', border: 'none', color: '#dc3545', cursor: 'pointer', padding: 0 }}
+            >
+                <RiDeleteBin6Line />
+            </button>
             <p className="score">{score}</p>
 
             <div className="botonera">
-            <button
-                    className="decrement-button"
-                    onClick={() => handleUpdateScore(-2)}
-                >
-                    -2
-                </button>
-                <button
-                    className="decrement-button"
-                    onClick={() => handleUpdateScore(-1)}
-                >
-                    -1
-                </button>
-                <span>
-                    <GiBackgammon />{" "}
-                </span>
-          <button
-                    className="increment-button"
-                    onClick={() => handleUpdateScore(1)}
-                >
-                    +1
-                </button>
-                <button
-                    className="increment-button"
-                    onClick={() => handleUpdateScore(2)}
-                >
-                    +2
-                </button>
+                <button className="decrement-button" onClick={() => handleUpdateScore(-2)}>-2</button>
+                <button className="decrement-button" onClick={() => handleUpdateScore(-1)}>-1</button>
+                <button className="autocomplete-button" onClick={handleAutoComplete} title="Completar para que la suma dé cero">Suma</button>
+                <button className="increment-button" onClick={() => handleUpdateScore(1)}>+1</button>
+                <button className="increment-button" onClick={() => handleUpdateScore(2)}>+2</button>
             </div>
         </div>
     )
@@ -59,6 +52,7 @@ function PlayerScore({
 
 function GameBoard() {
     const [players, setPlayers] = useState([])
+    const [playersOrder, setPlayersOrder] = useState([])
 
     const [playerName, setPlayerName] = useState("")
 
@@ -97,6 +91,7 @@ function GameBoard() {
             localStorage.getItem("playerScores")
         )
         if (savedPlayers) setPlayers(savedPlayers)
+        if (savedPlayers) setPlayersOrder(savedPlayers)
         if (savedRounds) setRounds(savedRounds)
         if (savedPlayerScores) setPlayerScores(savedPlayerScores)
     }, [])
@@ -111,6 +106,7 @@ function GameBoard() {
             // Agrega el nuevo jugador a la lista de jugadores
 
             setPlayers([...players, playerName])
+            setPlayersOrder([...playersOrder, playerName])
             // Inicializa el puntaje del nuevo jugador en todas las rondas existentes
             const newRounds = rounds.map((round) => ({
                 ...round,
@@ -139,6 +135,7 @@ function GameBoard() {
             if (result.isConfirmed) {
                 // Borrar todos los datos del estado y del Local Storage
                 setPlayers([])
+                setPlayersOrder([])
                 setRounds([])
                 setPlayerScores({})
             }
@@ -167,6 +164,70 @@ function GameBoard() {
             [player]: (prevScores[player] || 0) + points,
         }))
     }
+    const setScore = (player, value) => {
+        setPlayerScores((prevScores) => ({
+            ...prevScores,
+            [player]: value,
+        }))
+        setEditScores((prevScores) => ({
+            ...prevScores,
+            [player]: value,
+        }))
+    }
+
+    const removePlayer = (player) => {
+        const score = playerScores[player] || 0
+        const accumulated = totalRow[player] || 0
+        const otherPlayers = players.filter((p) => p !== player)
+        const otherPlayersOrder = playersOrder.filter((p) => p !== player)
+
+        const doRemove = (target) => {
+            setPlayerScores((prev) => {
+                const updated = { ...prev }
+                if (target) updated[target] = (updated[target] || 0) + score
+                delete updated[player]
+                return updated
+            })
+            setEditScores((prev) => {
+                const updated = { ...prev }
+                if (target) updated[target] = (updated[target] || 0) + score
+                delete updated[player]
+                return updated
+            })
+            setRounds((prev) => prev.map((round) => {
+                const updated = { ...round }
+                if (target) updated[target] = (updated[target] || 0) + (updated[player] || 0)
+                delete updated[player]
+                return updated
+            }))
+            setPlayers(otherPlayers)
+            setPlayersOrder(otherPlayersOrder)
+        }
+
+        if (otherPlayers.length === 0) {
+            doRemove(null)
+            return
+        }
+
+        const options = otherPlayers.map((p) => `<option value="${p}">${p}</option>`).join("")
+        const displayScore = accumulated !== 0 ? accumulated : score
+        Swal.fire({
+            title: `Eliminar a ${player}`,
+            html: `Tiene ${displayScore > 0 ? "+" : ""}${displayScore} puntos acumulados. ¿A quién se los transferís?<br/><br/>
+                <select id="transfer-select" class="swal2-select" style="width:100%;max-width:100%;box-sizing:border-box">
+                    ${options}
+                </select>`,
+            confirmButtonText: "Transferir y eliminar",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            width: '80%',
+            customClass: { popup: 'swal-compact' },
+            preConfirm: () => document.getElementById("transfer-select").value,
+        }).then((result) => {
+            if (result.isConfirmed) doRemove(result.value)
+        })
+    }
+
     const handleReset = () => {
         setPlayerScores(initialPlayerScores)
         setEditIndex(null)
@@ -174,6 +235,15 @@ function GameBoard() {
     }
 
     const handleNextRound = () => {
+        const total = Object.values(editScores).reduce((sum, s) => sum + s, 0)
+        if (total !== 0) {
+            Swal.fire({
+                icon: "error",
+                title: "La suma no es cero",
+                text: `La suma actual es ${total > 0 ? "+" : ""}${total}. Corregí los puntajes antes de anotar.`,
+            })
+            return
+        }
         // Agrega la ronda actual a la lista de rondas
         const updatedRounds = [...rounds, { ...editScores }]
 
@@ -250,9 +320,43 @@ function GameBoard() {
         setEditScores(initialPlayerScores)
     }
 
+    const handleManualAdjust = () => {
+        const inputs = playersOrder.map(p =>
+            `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <label style="font-weight:bold;margin-right:8px">${p}</label>
+                <input id="adj-${p}" type="number" value="0" class="swal2-input" style="width:90px;margin:0"/>
+            </div>`
+        ).join("")
+
+        Swal.fire({
+            title: "Ajuste manual",
+            html: inputs,
+            width: "80%",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Aplicar",
+            preConfirm: () => {
+                const values = {}
+                let total = 0
+                for (const p of playersOrder) {
+                    const v = parseInt(document.getElementById(`adj-${p}`).value) || 0
+                    values[p] = v
+                    total += v
+                }
+                if (total !== 0) {
+                    Swal.showValidationMessage(`La suma es ${total > 0 ? "+" : ""}${total}, debe ser cero`)
+                    return false
+                }
+                return values
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setRounds(prev => [...prev, { ...result.value, _ajuste: true }])
+            }
+        })
+    }
     const handleRedo = () => {
         if (deletedRounds.length > 0) {
-            // Toma la última ronda eliminada y el resto de las rondas eliminadas
             const [lastDeletedRound, ...remainingDeletedRounds] = deletedRounds
 
             // Verifica que lastDeletedRound tenga una propiedad 'index'
@@ -307,137 +411,69 @@ function GameBoard() {
             <div className="game-board">
                 <h1>Backgammon Chouette</h1>
 
-                <div className="input-button">
-                    <input
-                        type="text"
-                        value={playerName}
-                        onChange={(e) =>
-                            setPlayerName(e.target.value.toLocaleUpperCase())
-                        }
-                        placeholder="Agregar Jugador"
-                        className="input-player-name"
-                    />
-                    <div>
-                        <button className="button" onClick={notify}>
-                            Add Player
-                        </button>
-                        <ToastContainer
-                            position="top-center"
-                            autoClose={1000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            draggable
-                            pauseOnHover
-                            theme="light"
-                            transition:Bounce
-                        />
-                    </div>
-                </div>
-
-                <div>
-                    {/* Envuelve la lista de jugadores con DragDropContext y Droppable */}
-                    <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="droppable-players">
-                            {(provided) => (
-                                <div
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                >
-                                    {players.map((player, index) => (
-                                        // Envuelve cada jugador con Draggable
-                                        <Draggable
-                                            key={player}
-                                            draggableId={player}
-                                            index={index}
-                                        >
-                                            {(provided) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
-                                                    <PlayerScore
-                                                        player={player}
-                                                        score={
-                                                             playerScores[player]
-                                                        }
-                                                        updateScore={
-                                                            updateScore
-                                                        }
-                                                        hover={hover}
-                                                        handleMouseEnter={
-                                                            handleMouseEnter
-                                                        }
-                                                        handleMouseLeave={
-                                                            handleMouseLeave
-                                                        }
-                                                    />
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="droppable-players">
+                        {(provided) => (
+                            <div
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                {players.map((player, index) => (
+                                    <Draggable
+                                        key={player}
+                                        draggableId={player}
+                                        index={index}
+                                    >
+                                        {(provided) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <PlayerScore
+                                                    player={player}
+                                                    score={playerScores[player]}
+                                                    updateScore={updateScore}
+                                                    setScore={setScore}
+                                                    totalScore={calculateTotalScore()}
+                                                    removePlayer={removePlayer}
+                                                    accumulated={totalRow[player] || 0}
+                                                />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+                {players.length > 0 && (
+                    <>
+                        <div
+                            style={{ display: "flex", alignItems: "center", flexFlow: "column wrap" }}
+                            className="score-check"
+                        >
+                            {calculateTotalScore() !== 0 && (
+                                <>
+                                    <AiOutlineCloseCircle color="red" size={55} title="La suma no es cero" />
+                                    <p style={{ justifyContent: "center" }}>LA SUMA NO ES CERO</p>
+                                </>
                             )}
-                        </Droppable>
-                    </DragDropContext>
-                </div>
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        flexFlow: "column wrap",
-                    }}
-                    className="score-check"
-                >
-                    {calculateTotalScore() === 0 ? (
-                        <AiOutlineCheckCircle
-                            color="green"
-                            size={55}
-                            title="La suma es cero"
-                        />
-                    ) : (
-                        <>
-                            <AiOutlineCloseCircle
-                                color="red"
-                                size={55}
-                                title="La suma no es cero"
-                            />
-                            <p style={{ justifyContent: "center" }}>
-                                LA SUMA NO ES CERO
-                            </p>
-                        </>
-                    )}
-                </div>
-                {calculateTotalScore() === 0 && (
-                    <button
-                        className="button"
-                        onClick={handleNextRound}
-                        disabled={calculateTotalScore() !== 0}
-                    >
-                        Anotar
-                    </button>
-                )}
-                <button className="button" onClick={handleReset}>
-                    Reset
-                </button>
-                <button className="button" onClick={handleResetAll}>
-                    Borrar partida
-                </button>
-                {deletedPlayers.length > 0 && (
-                    <button
-                        className="reincorporate-player-button"
-                        onClick={reincorporatePlayer}
-                    >
-                        Volver a Incorporar Jugador
-                    </button>
+                        </div>
+                        {calculateTotalScore() === 0 && (
+                            <button className="button btn-anotar" onClick={handleNextRound}>✔ Anotar</button>
+                        )}
+                        <button className="button btn-reset" onClick={handleReset}>↺ Reset</button>
+                    </>
                 )}
 
-                <table className="table-container">
+                {rounds.length > 0 && (
+                    <table className="table-container">
                     <thead>
                         <tr className="total-row ">
-                            <th>Ronda / Jug.</th>
-                            {players.map((player) => (
+                            <th style={{width: "2.5rem", minWidth: "2.5rem"}}>Rnd</th>
+                            {playersOrder.map((player) => (
                                 <th key={player}>{player}</th>
                             ))}
                             <th></th>
@@ -445,17 +481,18 @@ function GameBoard() {
                     </thead>
                     <tbody>
                         <tr className="total-row">
-                            <td className="total-column">Total</td>
-                            {players.map((player) => (
+                            <td className="total-column" style={{width: "2.5rem", minWidth: "2.5rem"}}>
+                                {Object.values(totalRow).reduce((s, v) => s + v, 0) === 0 && playersOrder.length > 0 ? "✅" : "❌"}
+                            </td>
+                            {playersOrder.map((player) => (
                                 <td key={player}>{totalRow[player] || 0}</td>
                             ))}
                             <td></td>
                         </tr>
                         {reversedRounds.map((round, index) => (
-                            <tr key={index}>
-                                <td>{reversedRounds.length - index}</td>
-
-                                {players.map((player) => (
+                            <tr key={index} style={round._ajuste ? {fontStyle:'italic', opacity: 0.85} : {}}>
+                                <td>{round._ajuste ? "✏️" : playersOrder.reduce((s, p) => s + (round[p] || 0), 0) === 0 ? "✅" : "❌"}</td>
+                                {playersOrder.map((player) => (
                                     <td key={player}>{round[player] || 0}</td>
                                 ))}
                                 <td>
@@ -487,11 +524,43 @@ function GameBoard() {
                         ))}
                     </tbody>
                 </table>
+                )}
 
                 {deletedRounds.length > 0 && (
                     <button className="action-button" onClick={handleRedo}>
                         Rehacer
                     </button>
+                )}
+
+                <div className="input-button">
+                    <input
+                        type="text"
+                        value={playerName}
+                        onChange={(e) =>
+                            setPlayerName(e.target.value.toLocaleUpperCase())
+                        }
+                        placeholder="Agregar Jugador"
+                        className="input-player-name"
+                    />
+                    <div>
+                        <button className="button btn-add" onClick={notify}>✚ Jugador</button>
+                        <ToastContainer
+                            position="top-center"
+                            autoClose={1000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                            transition:Bounce
+                        />
+                    </div>
+                </div>
+                {players.length > 0 && (
+                    <div className="bottom-actions">
+                        <button className="button btn-adjust" onClick={handleManualAdjust}>✏️ Ajuste manual</button>
+                        <button className="button btn-danger" onClick={handleResetAll}>🗑 Borrar partida</button>
+                    </div>
                 )}
             </div>
         </>
