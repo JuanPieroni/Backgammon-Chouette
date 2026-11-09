@@ -33,12 +33,12 @@ function PlayerScore({
                 className="remove-player-button"
                 onClick={() => removePlayer(player)}
                 title="Eliminar jugador"
-                style={{ position: 'absolute', top: 6, right: 6, background: 'none', border: 'none', color: '#dc3545', cursor: 'pointer', padding: 0 }}
+                style={{ position: 'absolute', top: 6, right: 6, background: 'none', border: 'none', color: '#dc3545', cursor: 'pointer', padding: 4, fontSize: '1.4rem', lineHeight: 1 }}
             >
                 <RiDeleteBin6Line />
             </button>
+            <div style={{ height: '2rem' }} />
             <p className="score">{score}</p>
-
             <div className="botonera">
                 <button className="decrement-button" onClick={() => handleUpdateScore(-2)}>-2</button>
                 <button className="decrement-button" onClick={() => handleUpdateScore(-1)}>-1</button>

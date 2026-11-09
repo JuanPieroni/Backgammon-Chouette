@@ -114,11 +114,16 @@ body {
 .player-score {
   background: rgba(10, 6, 6, 0.432);
   border-radius: 8px;
-  padding: 36px 6px 6px 6px;
-  margin-bottom: 8px;
+  padding: 10px 10px 16px 10px;
+  margin-bottom: 10px;
   position: relative;
   animation: fadeInUp 0.5s ease-out forwards;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 130px;
 }
 
 .player-score h3 {
@@ -132,6 +137,7 @@ body {
   font-family: 'Russo One', sans-serif;
   letter-spacing: 3px;
   line-height: 1;
+  margin: 10px 0;
 }
  
 /* Remove player button styles */
@@ -206,14 +212,16 @@ body {
     padding: 0;
   }
   .botonera button {
-    font-size: 15px;
-    padding: 8px 12px;
+    font-size: 18px;
+    padding: 12px 14px;
+    min-width: 52px;
+    min-height: 52px;
   }
   .botonera .increment-button,
   .botonera .decrement-button,
   .botonera .autocomplete-button {
-    font-size: 14px;
-    padding: 8px 10px;
+    font-size: 18px;
+    padding: 12px 14px;
   }
 }
 
@@ -281,13 +289,15 @@ body {
 }
 
 .botonera button {
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 17px;
   font-weight: bold;
   cursor: pointer;
   outline: none;
   transition: all 0.2s ease;
+  min-width: 48px;
+  min-height: 48px;
 }
 
 .botonera button:hover {
@@ -299,8 +309,8 @@ body {
   background: rgba(126,241,116,0.2);
   color: #7ef174;
   border: 1px solid rgba(126,241,116,0.5);
-  font-size: 11px;
-  padding: 4px 6px;
+  font-size: 17px;
+  padding: 10px 14px;
 }
 
 .botonera .increment-button:hover {
@@ -311,8 +321,8 @@ body {
   background: rgba(255,107,107,0.2);
   color: #ff6b6b;
   border: 1px solid rgba(255,107,107,0.5);
-  font-size: 11px;
-  padding: 4px 6px;
+  font-size: 17px;
+  padding: 10px 14px;
 }
 
 .botonera .decrement-button:hover {
@@ -323,8 +333,8 @@ body {
   background: rgba(169,196,255,0.2);
   color: #a9c4ff;
   border: 1px solid rgba(169,196,255,0.5);
-  font-size: 11px;
-  padding: 4px 6px;
+  font-size: 17px;
+  padding: 10px 14px;
 }
 
 .botonera .autocomplete-button:hover {
@@ -356,12 +366,12 @@ body {
   background: rgba(0,0,0,0.6);
   color: #ffd700;
   font-family: 'Orbitron', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  padding: 3px 9px;
+  padding: 4px 12px;
   border-radius: 5px;
   letter-spacing: 1px;
-  min-width: 1.5rem;
+  min-width: 2rem;
   text-align: center;
   text-shadow: 0 0 8px rgba(255,215,0,0.6);
 }
@@ -374,6 +384,11 @@ body {
 
 .swal-compact .swal2-html-container {
   overflow-x: hidden !important;
+}
+
+body.swal2-shown {
+  overflow-x: hidden !important;
+  padding-right: 0 !important;
 }
 .table-container {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
